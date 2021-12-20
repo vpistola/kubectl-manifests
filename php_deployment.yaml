@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php
+  labels:
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: php
+        tier: backend
+    spec:
+      volumes:
+      - name: code
+        persistentVolumeClaim:
+          claimName: task-pv-claim
+      containers:
+      - name: php
+        image: php:fpm
+        volumeMounts:
+        - name: code
+          mountPath: /code
+      initContainers:
+      - name: install
+        image: busybox
+        volumeMounts:
+        - name: code
+          mountPath: /code
+        command:
+        - apt-install
+        - pdo pdo_mysql
