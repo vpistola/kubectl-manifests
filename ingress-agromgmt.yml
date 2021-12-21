@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-agromgmt-routing
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /agro_mgmt
+#    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+#    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+#    nginx.ingress.kubernetes.io/auth-tls-secret: "default/ingress-tls-secret" 
+#    nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
+  labels:
+    app.kubernetes.io/instance: a4p-phpmyadmin
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: phpmyadmin
+    helm.sh/chart: phpmyadmin-8.2.10
+  namespace: a4p
+spec:
+  rules:
+  - host: chaos.athenarc.gr
+    http:
+      paths:
+      - path: /agro_mgmt
+        pathType: Prefix
+        backend:
+          service:
+            name: a4p-phpmyadmin
+            port:
+              number: 80
