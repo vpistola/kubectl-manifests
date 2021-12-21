@@ -1,38 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: php-d
   labels:
-    app: app
-  name: web
-  namespace: epistola
+    app: php
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app
-  strategy:
-    type: Recreate
+      app: php
   template:
     metadata:
       labels:
-        app: app
+        app: php
     spec:
       containers:
       - name: php-a4p-platform2
-        image: php-fpm:v1
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 9000
-          name: http
-          protocol: TCP
-        volumeMounts:
-        - name: nginx-config-volume
-          mountPath: /etc/nginx/conf.d/default.conf
-          subPath: default.conf
-        - name: www-storage
-          mountPath: /code
-      - name: nginx-a4p-platform2
-        image: nginx:alpine
+        image: epistola/php
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -41,7 +25,7 @@ spec:
         volumeMounts:
         - name: nginx-config-volume
           mountPath: /etc/nginx/conf.d/default.conf
-          subPath: default.conf
+          subPath: nginx.conf
         - name: www-storage
           mountPath: /code
       restartPolicy: Always
