@@ -8,9 +8,9 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 9000
-      targetPort: 80
-      # nodePort: 31345
+    - port: 9000           # This is the port the service will be available on
+      targetPort: 80       # The container port the service will forward to
+      nodePort: 31558      # The service will be accessible through this port of each of the cluster nodes
   selector:
     app: php
 ---

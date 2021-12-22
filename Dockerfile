@@ -6,6 +6,8 @@ RUN apt-get update \
 			   libzip-dev \
 			   libicu-dev \
 			   libzip4 \
+			   systemd \
+			   nano \
 	&& pecl install xdebug \
 	&& docker-php-ext-install opcache \
     && docker-php-ext-enable xdebug \
@@ -24,5 +26,5 @@ WORKDIR /code
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 RUN echo "date.timezone=Europe/Athens" >> /usr/local/etc/php/php.ini
 
-EXPOSE 9000
+#EXPOSE 9000
 CMD ["php-fpm"]
