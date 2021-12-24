@@ -8,6 +8,8 @@ RUN apt-get update \
 			   libzip4 \
 			   systemd \
 			   nano \
+			   lsof \
+			   net-tools \
 	&& pecl install xdebug \
 	&& docker-php-ext-install opcache \
     && docker-php-ext-enable xdebug \
