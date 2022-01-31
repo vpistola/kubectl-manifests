@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-invs-platform-routing
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+  namespace: epistola
+spec:
+  rules:
+  - host: management.agro4plus.eu
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service #a4p-invs-platform-wordpress
+            port:
+              number: 80
+  - host: mng.agro4plus.eu
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
