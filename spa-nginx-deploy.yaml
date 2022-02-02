@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spa-nginx-service
+  namespace: epistola
+  labels:
+    app: spa-nginx
+spec:
+  ports:
+    - port: 9001
+      targetPort: 80    
+  selector:
+    app: spa-nginx
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spa-nginx-d
+  namespace: epistola
+  labels:
+    app: spa-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spa-nginx
+  template:
+    metadata:
+      labels:
+        app: spa-nginx
+    spec:
+      containers:
+      - name: spa-a4p-nginx
+        image: nginx
+        imagePullPolicy: IfNotPresent   #or Always
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - name: nginx-config-volume
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: nginx.conf
+        - name: www-storage
+          mountPath: /code
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+      - name: www-storage
+        persistentVolumeClaim:
+          claimName: pv-www-claim-spa
+      - name: nginx-config-volume
+        configMap:
+          name: spa-nginx-config

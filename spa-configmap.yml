@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: nginx-config
+  name: spa-nginx-config
   namespace: epistola
 data:
   nginx.conf: |
@@ -9,22 +9,25 @@ data:
       
       listen 80 default_server;
       listen [::]:80 default_server;
-      index /src/obj/default/dashboard.php;
+      index /src/dashboard.php;
 
       # Set nginx to serve files from the shared volume!
       root /code;
       server_name _;
       
       location / {
+        return 301 /src/dashboard.php;
         try_files $uri $uri/ =404;
       }
       
       location ~ \.php$ {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass spa-php-service.epistola:9000;
+        fastcgi_index /src/dashboard.php;
         include fastcgi_params;
-        fastcgi_index /src/obj/default/dashboard.php;
         fastcgi_param REQUEST_METHOD $request_method;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_pass php-service.epistola:9000;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
       }
 
     }

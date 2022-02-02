@@ -1,25 +1,26 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-service
+  name: spa-mysql-service
   namespace: epistola
   labels:
-    app: mysql
+    app: spa-mysql
 spec:
   type: NodePort
   ports:
     - port: 9002
       targetPort: 3306
-      # nodePort: 31345
+      nodePort: 31306
   selector:
-    app: mysql
+    app: spa-mysql
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mysql-pv-claim
+  name: mysql-pv-claim-spa
+  namespace: epistola
   labels:
-    app: mysql
+    app: spa-mysql
 spec:
   storageClassName: "chaos-nfs-storage"
   accessModes:
@@ -27,26 +28,27 @@ spec:
   resources:
     requests:
       storage: 10Gi
----      
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-d
+  name: spa-mysql-d
+  namespace: epistola
   labels:
-    app: mysql
+    app: spa-mysql
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysql
+      app: spa-mysql
   template:
     metadata:
       labels:
-        app: mysql
+        app: spa-mysql
     spec:
       containers:
-      - image: mysql:5.6
-        name: mysql
+      - image: mysql:8.0
+        name: spa-mysql
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
@@ -72,4 +74,4 @@ spec:
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
-          claimName: mysql-pv-claim
+          claimName: mysql-pv-claim-spa

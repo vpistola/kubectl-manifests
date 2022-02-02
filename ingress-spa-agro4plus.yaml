@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-spa-platform-routing
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+  namespace: epistola
+spec:
+  rules:
+  - host: spa.agro4plus.eu
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: spa-nginx-service
+            port:
+              number: 80
