@@ -14,10 +14,30 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: nginx-service #a4p-invs-platform-wordpress
+            name: nginx-service
             port:
               number: 80
   - host: mng.agro4plus.eu
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
+  - host: management.agro4plus.gr
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
+  - host: mng.agro4plus.gr
     http:
       paths:
       - path: /
