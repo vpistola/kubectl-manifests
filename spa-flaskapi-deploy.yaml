@@ -34,7 +34,7 @@ spec:
       containers:
       - name: spa-a4p-flask-api
         image: petamva/flask-api:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
           name: http
