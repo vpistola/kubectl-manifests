@@ -35,6 +35,13 @@ spec:
       - name: a4p-mgmt
         image: epistola/a4p-mgmt
         env:
+          - name: ENVIRONMENT
+            valueFrom:
+              secretKeyRef:
+                name: a4p-mgmt-secret
+                key: environment
+                optional: false # same as default; "mysecret" must exist
+                                # and include a key named "username"
           - name: HOST
             valueFrom:
               secretKeyRef:
