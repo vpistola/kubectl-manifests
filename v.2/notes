@@ -1,3 +1,5 @@
+docker run --name a4pmgmt -d -p8300:80 -e ENVIRONMENT='prod' -e HOST='kubem.ceti.gr:30002' -e DB='mgmt_a4p_platform' -e PRODUSER='epistola' -e PRODPASS='epistol@134679-852' a4pmgmt
+
 kubectl create secret generic a4p-mgmt-secret --from-literal=host='' --from-literal=db='' --from-literal=username=''--from-literal=password=''
 
 kubectl get secret a4p-mgmt-secret -o yaml | sed 's/namespace: default/namespace: epistola/' | kubectl apply -f -
