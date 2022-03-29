@@ -34,6 +34,35 @@ spec:
       containers:
       - name: a4p-mgmt
         image: epistola/a4p-mgmt
+        env:
+          - name: HOST
+            valueFrom:
+              secretKeyRef:
+                name: a4p-mgmt-secret
+                key: host
+                optional: false # same as default; "mysecret" must exist
+                                # and include a key named "username"
+          - name: DB
+            valueFrom:
+              secretKeyRef:
+                name: a4p-mgmt-secret
+                key: db
+                optional: false # same as default; "mysecret" must exist
+                                # and include a key named "username"
+          - name: PRODUSER
+            valueFrom:
+              secretKeyRef:
+                name: a4p-mgmt-secret
+                key: username
+                optional: false # same as default; "mysecret" must exist
+                                # and include a key named "username"
+          - name: PRODPASS
+            valueFrom:
+              secretKeyRef:
+                name: a4p-mgmt-secret
+                key: password
+                optional: false # same as default; "mysecret" must exist
+                                # and include a key named "password"
         imagePullPolicy: Always
         ports:
         - containerPort: 80
