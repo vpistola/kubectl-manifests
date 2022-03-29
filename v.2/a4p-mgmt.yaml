@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: a4p-mgmt-service
+  namespace: epistola
+  labels:
+    app: a4p-mgmt
+spec:
+  type: NodePort
+  ports:
+    - port: 9021           # This is the port the service will be available on
+      targetPort: 80       # The container port the service will forward to
+      nodePort: 31654      # The service will be accessible through this port of each of the cluster nodes
+  selector:
+    app: a4p-mgmt
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: a4p-mgmt-deploy
+  namespace: epistola
+  labels:
+    app: a4p-mgmt
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: a4p-mgmt
+  template:
+    metadata:
+      labels:
+        app: a4p-mgmt
+    spec:
+      containers:
+      - name: a4p-mgmt
+        image: epistola/a4p-mgmt
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+      restartPolicy: Always
+      serviceAccountName: ""
