@@ -14,7 +14,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: nginx-service
+            name: a4p-mgmt-service
             port:
               number: 80
   - host: mng.agro4plus.eu
@@ -24,7 +24,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: nginx-service
+            name: a4p-mgmt-service
             port:
               number: 80
   - host: management.agro4plus.gr
@@ -34,7 +34,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: nginx-service
+            name: a4p-mgmt-service
             port:
               number: 80
   - host: mng.agro4plus.gr

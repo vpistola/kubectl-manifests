@@ -22,7 +22,7 @@ metadata:
   labels:
     app: a4p-mgmt
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: a4p-mgmt
