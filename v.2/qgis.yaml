@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: qgis-service
+  namespace: epistola
+  labels:
+    app: qgis
+spec:
+  type: NodePort
+  ports:
+    - port: 9031           # This is the port the service will be available on
+      targetPort: 80       # The container port the service will forward to
+      #nodePort: 31654      # The service will be accessible through this port of each of the cluster nodes
+  selector:
+    app: qgis
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  qgis-deploy
+  namespace: epistola
+  labels:
+    app: qgis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qgis
+  template:
+    metadata:
+      labels:
+        app: qgis
+    spec:
+      containers:
+      - name: qgis
+        image: epistola/qgis
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+      restartPolicy: Always
+      serviceAccountName: ""

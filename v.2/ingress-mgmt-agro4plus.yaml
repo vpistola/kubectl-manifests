@@ -4,6 +4,10 @@ metadata:
   name: ingress-mgmt-platform-routing
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "300"   #"172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "300"   #"172800"
   namespace: epistola
 spec:
   rules:
