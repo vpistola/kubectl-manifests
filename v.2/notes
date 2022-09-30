@@ -4,3 +4,5 @@ kubectl create secret generic a4p-mgmt-secret --from-literal=host='' --from-lite
 
 kubectl get secret a4p-mgmt-secret -o yaml | sed 's/namespace: default/namespace: epistola/' | kubectl apply -f -
 
+# Move secret a4p-tls from default namespace to a4p
+kubectl get secret a4p-tls --namespace=default -o yaml | sed 's/namespace: .*/namespace: a4p/' | kubectl apply -f -

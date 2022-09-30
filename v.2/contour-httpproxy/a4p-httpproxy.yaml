@@ -1,0 +1,46 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: a4p-httpproxy
+  namespace: a4p
+spec:
+  virtualhost:
+    fqdn: agro4plus.eu
+    tls:
+      secretName: a4p-tls
+  routes:
+    - conditions:
+      - prefix: /
+      services:
+        - name: a4p-project-website-wordpress
+          port: 80
+  virtualhost:
+    fqdn: www.agro4plus.eu
+    tls:
+      secretName: a4p-tls
+  routes:
+    - conditions:
+      - prefix: /
+      services:
+        - name: a4p-project-website-wordpress
+          port: 80
+  virtualhost:
+    fqdn: agro4plus.gr
+    tls:
+      secretName: a4p-tls    
+  routes:
+    - conditions:
+      - prefix: /
+      services:
+        - name: a4p-project-website-wordpress
+          port: 80
+  virtualhost:
+    fqdn: www.agro4plus.gr
+    tls:
+      secretName: a4p-tls
+  routes:
+    - conditions:
+      - prefix: /
+      services:
+        - name: a4p-project-website-wordpress
+          port: 80                

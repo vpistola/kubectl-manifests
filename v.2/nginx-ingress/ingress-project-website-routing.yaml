@@ -1,0 +1,66 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"nginx.ingress.kubernetes.io/rewrite-target":"/"},"name":"ingress-project-website-routing","namespace":"a4p"},"spec":{"rules":[{"host":"agro4plus.eu","http":{"paths":[{"backend":{"service":{"name":"a4p-project-website-wordpress","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}},{"host":"www.agro4plus.eu","http":{"paths":[{"backend":{"service":{"name":"a4p-project-website-wordpress","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}},{"host":"agro4plus.gr","http":{"paths":[{"backend":{"service":{"name":"a4p-project-website-wordpress","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}},{"host":"www.agro4plus.gr","http":{"paths":[{"backend":{"service":{"name":"a4p-project-website-wordpress","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}}],"tls":[{"hosts":["agro4plus.eu","www.agro4plus.eu","agro4plus.gr","www.agro4plus.gr"],"secretName":"a4p-projectwebsite-ssl-cert"}]}}
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  creationTimestamp: "2021-08-04T13:13:43Z"
+  generation: 19
+  name: ingress-project-website-routing
+  namespace: a4p
+  resourceVersion: "74302940"
+  uid: 10233bd6-50b2-4f82-8b31-292af111fd8a
+spec:
+  rules:
+  - host: agro4plus.eu
+    http:
+      paths:
+      - backend:
+          service:
+            name: a4p-project-website-wordpress
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  - host: www.agro4plus.eu
+    http:
+      paths:
+      - backend:
+          service:
+            name: a4p-project-website-wordpress
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  - host: agro4plus.gr
+    http:
+      paths:
+      - backend:
+          service:
+            name: a4p-project-website-wordpress
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  - host: www.agro4plus.gr
+    http:
+      paths:
+      - backend:
+          service:
+            name: a4p-project-website-wordpress
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - agro4plus.eu
+    - www.agro4plus.eu
+    - agro4plus.gr
+    - www.agro4plus.gr
+    secretName: a4p-tls
+status:
+  loadBalancer:
+    ingress:
+    - ip: 195.251.3.240
