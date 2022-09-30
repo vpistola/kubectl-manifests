@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"nginx.ingress.kubernetes.io/rewrite-target":"/"},"name":"ingress-hosts-routing","namespace":"default"},"spec":{"rules":[{"host":"nyx.ceti.gr","http":{"paths":[{"backend":{"service":{"name":"nginx-deploy-main","port":{"number":80}}},"path":"/","pathType":"Prefix"},{"backend":{"service":{"name":"nginx-deploy-blue","port":{"number":80}}},"path":"/blue","pathType":"Prefix"}]}}]}}
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  creationTimestamp: "2021-07-02T10:26:41Z"
+  generation: 11
+  name: ingress-hosts-routing
+  namespace: default
+  resourceVersion: "60499601"
+  uid: dea71cc2-55c3-4f63-9c86-086b81890e87
+spec:
+  rules:
+  - host: nyx.ceti.gr
+    http:
+      paths:
+      - backend:
+          service:
+            name: envoy
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+    - ip: 195.251.3.240

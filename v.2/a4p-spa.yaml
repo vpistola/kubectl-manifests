@@ -1,72 +1,72 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: a4p-mgmt-service
+  name: a4p-spa-service
   namespace: epistola
   labels:
-    app: a4p-mgmt
+    app: a4p-spa
 spec:
   type: NodePort
   ports:
-    - port: 9021           # This is the port the service will be available on
+    - port: 9031           # This is the port the service will be available on
       targetPort: 80       # The container port the service will forward to
-      nodePort: 31654      # The service will be accessible through this port of each of the cluster nodes
+      nodePort: 31655      # The service will be accessible through this port of each of the cluster nodes
   selector:
-    app: a4p-mgmt
+    app: a4p-spa
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: a4p-mgmt-deploy
+  name: a4p-spa-deploy
   namespace: epistola
   labels:
-    app: a4p-mgmt
+    app: a4p-spa
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: a4p-mgmt
+      app: a4p-spa
   template:
     metadata:
       labels:
-        app: a4p-mgmt
+        app: a4p-spa
     spec:
       containers:
-      - name: a4p-mgmt
-        image: epistola/a4p-mgmt
+      - name: a4p-spa
+        image: epistola/a4p-spa
         env:
           - name: ENVIRONMENT
             valueFrom:
               secretKeyRef:
-                name: a4p-mgmt-secret
+                name: a4p-spa-secret
                 key: environment
                 optional: false # same as default; "mysecret" must exist
                                 # and include a key named "username"
           - name: HOST
             valueFrom:
               secretKeyRef:
-                name: a4p-mgmt-secret
+                name: a4p-spa-secret
                 key: host
                 optional: false # same as default; "mysecret" must exist
                                 # and include a key named "username"
           - name: DB
             valueFrom:
               secretKeyRef:
-                name: a4p-mgmt-secret
+                name: a4p-spa-secret
                 key: db
                 optional: false # same as default; "mysecret" must exist
                                 # and include a key named "username"
           - name: PRODUSER
             valueFrom:
               secretKeyRef:
-                name: a4p-mgmt-secret
+                name: a4p-spa-secret
                 key: username
                 optional: false # same as default; "mysecret" must exist
                                 # and include a key named "username"
           - name: PRODPASS
             valueFrom:
               secretKeyRef:
-                name: a4p-mgmt-secret
+                name: a4p-spa-secret
                 key: password
                 optional: false # same as default; "mysecret" must exist
                                 # and include a key named "password"

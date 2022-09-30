@@ -1,0 +1,15 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: mng-httpproxy
+  namespace: default
+spec:
+  virtualhost:
+    fqdn: nyx.ceti.gr
+  routes:
+    - conditions:
+      - prefix: /
+      services:
+        - name: envoy
+          port: 80
+              

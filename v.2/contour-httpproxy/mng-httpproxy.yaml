@@ -1,0 +1,38 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: mng-httpproxy
+  namespace: epistola
+spec:
+  virtualhost:
+    fqdn: management.agro4plus.eu
+  routes:
+    - conditions:
+      - prefix: /
+      services:
+        - name: a4p-mgmt-service
+          port: 9021
+  virtualhost:
+    fqdn: mng.agro4plus.eu
+  routes:
+    - conditions:
+      - prefix: /
+      services:
+        - name: a4p-mgmt-service
+          port: 9021
+  virtualhost:
+    fqdn: management.agro4plus.gr
+  routes:
+    - conditions:
+      - prefix: /
+      services:
+        - name: a4p-mgmt-service
+          port: 9021
+  virtualhost:
+    fqdn: mng.agro4plus.gr
+  routes:
+    - conditions:
+      - prefix: /
+      services:
+        - name: a4p-mgmt-service
+          port: 9021                
