@@ -1,0 +1,7 @@
+secretGenerator:
+- name: wp-mysql-pass
+  namespace: epistola
+  literals:
+  - password=Ch@iri84
+resources:
+  - wp-deploy.yaml
