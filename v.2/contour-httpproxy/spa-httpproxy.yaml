@@ -1,7 +1,7 @@
 apiVersion: projectcontour.io/v1
 kind: HTTPProxy
 metadata:
-  name: spa-httpproxy
+  name: spa-httpproxy-eu
   namespace: epistola
 spec:
   virtualhost:
@@ -12,6 +12,13 @@ spec:
       services:
         - name: a4p-spa-service
           port: 9032
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: spa-httpproxy-gr
+  namespace: epistola
+spec:
   virtualhost:
     fqdn: spa.agro4plus.gr
   routes:
