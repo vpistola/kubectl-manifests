@@ -1,17 +1,9 @@
 apiVersion: projectcontour.io/v1
 kind: HTTPProxy
 metadata:
-  name: invs-httpproxy
+  name: invs-httpproxy-gr
   namespace: epistola
 spec:
-  virtualhost:
-    fqdn: invest.agro4plus.eu
-  routes:
-    - conditions:
-      - prefix: /
-      services:
-        - name: wordpress
-          port: 9080
   virtualhost:
     fqdn: invest.agro4plus.gr
   routes:
@@ -20,3 +12,18 @@ spec:
       services:
         - name: wordpress
           port: 9080
+---
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: qgis-httpproxy
+  namespace: epistola
+spec:
+  virtualhost:
+    fqdn: qgis.agro4plus.gr
+  routes:
+    - conditions:
+      - prefix: /
+      services:
+        - name: qgis-service
+          port: 9031
