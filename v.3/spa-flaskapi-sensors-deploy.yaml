@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sensors-service
+  namespace: epistola
+  labels:
+    app: sensors
+spec:
+  type: NodePort
+  ports:
+    - port: 10100         
+      targetPort: 5000
+      nodePort: 31302       
+  selector:
+    app: sensors
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sensors-d
+  namespace: epistola
+  labels:
+    app: sensors
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sensors
+  template:
+    metadata:
+      labels:
+        app: sensors
+    spec:
+      containers:
+      - name: spa-a4p-flask-sensors-api
+        image: registry.gitlab.com/isr-lab/cr/sensors:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+          name: http
+          protocol: TCP
+      imagePullSecrets:
+      - name: regcred 
+      restartPolicy: Always
+      serviceAccountName: ""
