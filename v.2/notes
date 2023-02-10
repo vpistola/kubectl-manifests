@@ -6,3 +6,6 @@ kubectl get secret a4p-mgmt-secret -o yaml | sed 's/namespace: default/namespace
 
 # Move secret a4p-tls from default namespace to a4p
 kubectl get secret a4p-tls --namespace=default -o yaml | sed 's/namespace: .*/namespace: a4p/' | kubectl apply -f -
+
+# Create TLS secret form the crt and key files
+kubectl create secret tls test-tls --key="tls.key" --cert="tls.crt"

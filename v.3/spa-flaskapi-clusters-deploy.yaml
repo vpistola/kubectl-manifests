@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: clusters-penducles-service
+  namespace: epistola
+  labels:
+    app: clusters-penducles
+spec:
+  type: NodePort
+  ports:
+    - port: 10100         
+      targetPort: 5000
+      nodePort: 31301       
+  selector:
+    app: clusters-penducles
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clusters-penducles-d
+  namespace: epistola
+  labels:
+    app: clusters-penducles
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clusters-penducles
+  template:
+    metadata:
+      labels:
+        app: clusters-penducles
+    spec:
+      containers:
+      - name: spa-a4p-flask-clusters-api
+        image: registry.gitlab.com/isr-lab/cr/clusters-penducles:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+          name: http
+          protocol: TCP
+      imagePullSecrets:
+      - name: registry-credentials 
+      restartPolicy: Always
+      serviceAccountName: ""
