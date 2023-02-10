@@ -40,6 +40,10 @@ spec:
           name: http
           protocol: TCP
       imagePullSecrets:
+<<<<<<< HEAD
       - name: registry-credentials 
+=======
+      - name: regcred 
+>>>>>>> 3b80764ce79cf4a167f12389e3633a771222880e
       restartPolicy: Always
       serviceAccountName: ""
