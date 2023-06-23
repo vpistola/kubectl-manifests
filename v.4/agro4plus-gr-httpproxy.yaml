@@ -1,0 +1,16 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: agro4plus-gr-httpproxy
+  namespace: a4p
+spec:
+  virtualhost:
+    fqdn: agro4plus.gr
+    tls:
+      secretName: a4p-tls
+  routes:
+    - conditions:
+      - prefix: /
+      services:
+        - name: a4p-website-service
+          port: 9054
