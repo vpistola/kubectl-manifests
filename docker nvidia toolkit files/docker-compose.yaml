@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  ubuntu:
+    image: ubuntu-ssh
+    tty: true
+    volumes:
+      - /home/chairiq/docker_volumes/vol1:/opt/volume
+    ports:
+      - '2222:22'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+        reservations:
+          devices:
+            - driver: nvidia
+              #count: 2
+              device_ids: ['0', '1']
+              capabilities: [gpu]

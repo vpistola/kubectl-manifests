@@ -1,0 +1,14 @@
+1. CREATE THE BASE IMAGE OF THE CONTAINER
+  - Add to Dockerfile any required packages
+  - Build the image and name it ubuntu-ssh using: docker build . -t ubuntu-ssh
+
+2. EDIT THE DOCKER COMPOSE FILE
+  - Change in the docker-compose.yaml file the following:
+    - volumes: (you must specify the volume, like vol1, to have a persistence in a folder on the host)
+      - /home/chairiq/docker_volumes/vol1:/opt/volume
+    - ports:  (change the 2222 to give each one container a unique ssh port)
+      - '2222:22'
+    - change the field 'device_ids'
+    - adjust the limits
+  - Create a different folder for each newly created container. Each folder must contain a copy of the docker-compose file 
+  - docker compose up -d  (to create the container)
