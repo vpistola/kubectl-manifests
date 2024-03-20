@@ -3,7 +3,7 @@ kubectl rollout status deployment/a4p-spa-deploy -n epistola
 kubectl rollout history deployment/a4p-spa-deploy -n epistola
 
 copy secret from one namespace to testing namespace:
-kubectl get secret a4p-spa-secret -n epistola -o yaml | sed 's/namespace: .*/namespace: testing/' | kubectl apply -f -
+**kubectl get secret a4p-spa-secret -n epistola -o yaml | sed 's/namespace: .*/namespace: testing/' | kubectl apply -f -**
 
 Renew Certificates:
 - kubeadm certs renew all
@@ -13,16 +13,17 @@ Renew Certificates:
 - sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 =============================================
+
 container --> must be quick to start and quick to scale
 
 [1]
 Virtual machines can give the appearance of separation while sharing physical
 hardware, but a virtual machine has the overhead of running its own operating system, services, and virtual devices, making it slower to start and less scalable.
 
-mkdir /tmp/newroot
-cp --parents /bin/bash /bin/ls
-cp --parents /lib64/ld-linux-x86-64.so.2 $(ldd /bin/bash /bin/ls | grep '=>' | awk '{print $3}') /tmp/newroot
-chroot /tmp/newroot /bin/bash
+**mkdir /tmp/newroot**
+**cp --parents /bin/bash /bin/ls**
+**cp --parents /lib64/ld-linux-x86-64.so.2 $(ldd /bin/bash /bin/ls | grep '=>' | awk '{print $3}') /tmp/newroot**
+**chroot /tmp/newroot /bin/bash**
 
 
 At the same time, processes in a container are still sharing the same CPU, memory, and network. A process that uses too many of those resources will prevent other processes from running properly. Namespaces can’t solve that problem, however. To prevent this issue, you need resource limiting (cgroups).
@@ -48,7 +49,7 @@ for the container and any environment variables for that command.
 
 [4]
 A taint restricts what can be scheduled on a node.
-# kubectl get node -o json | jq '.items[]|.metadata.name,.spec.taints[]'
+**kubectl get node -o json | jq '.items[]|.metadata.name,.spec.taints[]'**
 
 
 
@@ -77,13 +78,13 @@ kubectl uncordon chaos
 ===== End of Upgrade =====
 
 
-journalctl -p err -b
-sudo journalctl -u kubelet
+**journalctl -p err -b**
+**sudo journalctl -u kubelet**
 
 
 
 [5]
-$ kubectl config set-context --current --namespace shield
+**$ kubectl config set-context --current --namespace shield**
 
 Kubernetes clusters run an internal DNS service that is the centre of service discovery. Service names are automatically registered with the cluster DNS, and every Pod and container is pre-configured to use the cluster DNS. This means every Pod/container can resolve every Service name to a ClusterIP and connect to the Pods behind it.
 
@@ -115,7 +116,7 @@ We’re defining a stateful application as one that creates and saves valuable d
 Failed Pods managed by a StatefulSet will be replaced by new Pods with the exact same Pod name, the exact same DNS hostname, and the exact same volumes.
 
 
-[7] RBAC
+[7] RBAC 
 Which users can perform which actions against which resources.
 
 A powerful pattern is to define Roles at the cluster level (ClusterRoles) and bind them to specific Namespaces via RoleBindings. This lets you define common roles once, and re-use them across multiple Namespaces. For
@@ -137,10 +138,9 @@ The API is RESTful. This is jargon for a modern web API that accepts CRUD-style 
 
 REST requests comprise a verb and a path to a resource. Verbs relate to actions, and are the standard HTTP methods you saw in the previous table. Paths are a URI path to the resource in the API.
 
-$ kubectl proxy --port 9000 &
-$ curl http://localhost:9000/api/v1/namespaces/shield/pods
-
-$ curl -X POST -H "Content-Type: application/json" --data-binary @ns.json http://localhost:9000/api/v1/namespaces
+**kubectl proxy --port 9000 &**
+**curl http://localhost:9000/api/v1/namespaces/shield/pods**
+**curl -X POST -H "Content-Type: application/json" --data-binary @ns.json http://localhost:9000/api/v1/namespaces**
 
 
 
@@ -176,14 +176,15 @@ EOF
 
 
 
-[10] Δημιουργία certificate για αναφορά στον HTTPProxy του Envoy:
+[10]
+Δημιουργία certificate για αναφορά στον HTTPProxy του Envoy:
 openssl req -new -newkey rsa:2048 -nodes -keyout tls.key -out tls.csr
 Αποθηκεύω το tls.key και το pem certificate tls.pem
 kubectl create secret tls a4p-mgmt-tls -n epistola --key tls.key --cert tls.pem
 
 
 [11] Copy files from the local system (agro_webgl) to a pod (wordpress-6fdd58fc4d-6ln7p) to path (/var/www/html)
-kubectl cp -n epistola .\agro_webgl\ wordpress-6fdd58fc4d-6ln7p:/var/www/html
+**kubectl cp -n epistola .\agro_webgl\ wordpress-6fdd58fc4d-6ln7p:/var/www/html**
 
 
 ==========
@@ -216,7 +217,9 @@ nslookup php-service.epistola
 
 service nginx reload
 195.251.3.1
+
 ====================================================================
+
 Build docker image:
 docker login
 docker build -t epistola/php .   // must have a Dockerfile in the directory
